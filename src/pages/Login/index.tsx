@@ -35,7 +35,7 @@ export default function Login() {
           className='block w-full p-2 border'
           onChange={(e) => setPassword(e.target.value)}
           placeholder='Password'
-          type='text'
+          type='password'
         />
         <button className='bg-blue-500 text-white w-full p-2 mt-4'>
           Login
