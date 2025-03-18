@@ -33,7 +33,7 @@ const List: React.FC<ItemType> = ({ type }) => {
   return (
     <>
       {isModalOpen && <Modal onClose={() => setModalOpen(false)} refetch={fetchData} type={type} />}
-      <div className='container mx-auto p-4'>
+      <div className='m-auto p-4'>
         <h1 className='text-2xl font-bold'>{capitalized}</h1>
         <button className='bg-blue-900' onClick={() => setModalOpen(true)}>{`Add New ${capitalized}`}</button>
         <ul>
@@ -41,10 +41,10 @@ const List: React.FC<ItemType> = ({ type }) => {
             const { description, id, name, status } = listItem;
 
             return (
-              <li key={id} className={`border p-2 mt-2 ${statusColors[status]}`}>
-                <h2 className='text-xl'>{name}</h2>
-                <p>{description}</p>
-                <span className='text-sm text-gray-500'>{status}</span>
+              <li key={id} className={`border mt-2 p-2 relative rounded-lg shadow-md ${statusColors[status]}`}>
+                <h2 className='font-bold text-left text-lg'>{name}</h2>
+                <p className='mt-1 text-gray-700 text-left text-sm'>{description}</p>
+                <span className='absolute bg-gray-200 bottom-2 font-semibold px-2 py-1 right-2 rounded text-xs text-gray-700'>{status}</span>
               </li>
             );
           })}
