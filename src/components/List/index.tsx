@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { statusColors } from '../../utils/constants';
 import Modal from '../Modal';
+import { statusColors } from '../../utils/constants';
 import { capitalize } from '../../utils/capitalize';
 
 interface ItemType {
