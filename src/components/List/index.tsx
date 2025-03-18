@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Modal from '../Modal';
-import { statusColors } from '../../utils/constants';
+import { statusColors, statusTerms } from '../../utils/constants';
 import { capitalize } from '../../utils/capitalize';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -51,7 +51,7 @@ const List: React.FC<ItemType> = ({ type }) => {
               <li key={id} className={`border mt-2 p-2 relative rounded-lg shadow-md ${statusColors[status]}`}>
                 <h2 className='font-bold text-left text-lg'>{name}</h2>
                 <p className='mt-1 text-gray-700 text-left text-sm'>{description}</p>
-                <span className='absolute bg-gray-200 bottom-2 font-semibold px-2 py-1 right-2 rounded text-xs text-gray-700'>{status}</span>
+                <span className='absolute bg-gray-200 bottom-2 font-semibold px-2 py-1 right-2 rounded text-xs text-gray-700'>{statusTerms[status]}</span>
               </li>
             );
           })}
