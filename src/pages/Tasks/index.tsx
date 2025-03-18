@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { statusColors } from "../../utils/constants";
 
 interface Task {
   description: string;
   id: number;
-  status: string;
+  status: number;
   title: string;
 }
 
@@ -25,7 +26,7 @@ export default function Tasks() {
           const { description, id, status, title } = task;
 
           return (
-            <li key={id} className='border p-2 mt-2'>
+            <li key={id} className={`border p-2 mt-2 ${statusColors[status]}`}>
               <h2 className='text-xl'>{title}</h2>
               <p>{description}</p>
               <span className='text-sm text-gray-500'>{status}</span>
