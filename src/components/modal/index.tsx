@@ -1,10 +1,11 @@
 import { FormEvent, useState } from "react";
 
 interface ModalProps {
+  onClose: () => void;
   type: 'projects' | 'tasks';
 }
 
-const Modal: React.FC<ModalProps> = ({ type }) => {
+const Modal: React.FC<ModalProps> = ({ onClose, type }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
 
@@ -19,8 +20,9 @@ const Modal: React.FC<ModalProps> = ({ type }) => {
 
   return (
     <div className='fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50'>
-      <div className='bg-white p-5 rounded shadow-lg'>
+      <div className='bg-blue-900 p-5 relative rounded shadow-lg'>
         <h2 className='text-xl font-bold'>{`Add New ${type === 'projects' ? 'Project' : 'Task'}`}</h2>
+        <button className='absolute right-0 top-0' onClick={onClose}>X</button>
         <form onSubmit={handleSubmit}>
           <input
             type='text'
