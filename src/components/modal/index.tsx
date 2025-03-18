@@ -3,10 +3,11 @@ import { capitalize } from "../../utils/capitalize";
 
 interface ModalProps {
   onClose: () => void;
+  refetch: () => void;
   type: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ onClose, type }) => {
+const Modal: React.FC<ModalProps> = ({ onClose, refetch, type }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const capitalized = capitalize(type);
@@ -18,6 +19,9 @@ const Modal: React.FC<ModalProps> = ({ onClose, type }) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, description, status: 0 }),
     });
+
+    onClose();
+    refetch();
   }
 
   return (

@@ -20,15 +20,19 @@ const List: React.FC<ItemType> = ({ type }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const capitalized = capitalize(type);
 
-  useEffect(() => {
+  const fetchData = () => {
     axios.get(`${import.meta.env.VITE_BE_HOST}api/${type}s`)
       .then((response) => setList(response.data))
       .catch((error) => console.error(error));
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   return (
     <>
-      {isModalOpen && <Modal onClose={() => setModalOpen(false)} type={type} />}
+      {isModalOpen && <Modal onClose={() => setModalOpen(false)} refetch={fetchData} type={type} />}
       <div className='container mx-auto p-4'>
         <h1 className='text-2xl font-bold'>{capitalized}</h1>
         <button className='bg-blue-900' onClick={() => setModalOpen(true)}>{`Add New ${capitalized}`}</button>
