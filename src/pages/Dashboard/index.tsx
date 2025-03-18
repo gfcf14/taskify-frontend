@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import { useAuth } from '../../hooks/useAuth';
 interface Task {
   description: string;
   id: number;
@@ -10,25 +9,21 @@ interface Task {
 }
 
 export default function Dashboard() {
+  const { navigate, token } = useAuth();
   const [tasks, setTasks] = useState<Task[]>([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-
-    // in basic auth, if no token exists user should be directed to log in
     if (!token) {
       navigate('/');
       return;
     }
 
-    // otherwise, get the user tasks
     axios.get(`${import.meta.env.VITE_BE_HOST}api/tasks/`, {
       headers: { Authorization: `Bearer ${token}`},
     })
     .then((response) => setTasks(response.data))
     .catch(() => navigate('/'));
-  }, [navigate]);
+  }, []);
 
   return (
     <div className='container mx-auto p-4'>

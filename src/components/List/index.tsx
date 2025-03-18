@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Modal from '../Modal';
 import { statusColors } from '../../utils/constants';
 import { capitalize } from '../../utils/capitalize';
+import { useAuth } from '../../hooks/useAuth';
 
 interface ItemType {
   type: string;
@@ -16,6 +17,7 @@ interface ListItem {
 }
 
 const List: React.FC<ItemType> = ({ type }) => {
+  const { navigate, token } = useAuth();
   const [list, setList] = useState<ListItem[]>([]);
   const [isModalOpen, setModalOpen] = useState(false);
   const capitalized = capitalize(type);
@@ -27,6 +29,11 @@ const List: React.FC<ItemType> = ({ type }) => {
   };
 
   useEffect(() => {
+    if (!token) {
+      navigate('/');
+      return;
+    }
+
     fetchData();
   }, []);
 
