@@ -1,5 +1,5 @@
-import { FormEvent, useState } from "react";
-import { capitalize } from "../../utils/capitalize";
+import { FormEvent, useState } from 'react';
+import { capitalize } from '../../utils/capitalize';
 
 interface ModalProps {
   onClose: () => void;

@@ -1,8 +1,8 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { statusColors } from "../../utils/constants";
-import Modal from "../Modal";
-import { capitalize } from "../../utils/capitalize";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { statusColors } from '../../utils/constants';
+import Modal from '../Modal';
+import { capitalize } from '../../utils/capitalize';
 
 interface ItemType {
   type: string;
