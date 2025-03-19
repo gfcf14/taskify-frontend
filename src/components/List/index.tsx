@@ -65,7 +65,7 @@ const List: React.FC<ItemType> = ({ endpoint, id = null, title, type }) => {
             );
 
             return type === 'project' ? (
-              <Link className='text-white' to={`/projects/${id}`}>
+              <Link key={id} className='text-white' to={`/projects/${id}`}>
                 {itemCard}
               </Link>
             ) : type === 'task' ? itemCard : null;
