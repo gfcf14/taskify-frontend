@@ -7,6 +7,9 @@ import { capitalize } from '../../utils/capitalize';
 import { useAuth } from '../../hooks/useAuth';
 
 interface ItemType {
+  endpoint: string;
+  id?: number;
+  title: string;
   type: string;
 }
 
@@ -17,14 +20,14 @@ interface ListItem {
   status: number;
 }
 
-const List: React.FC<ItemType> = ({ type }) => {
+const List: React.FC<ItemType> = ({ endpoint, id = null, title, type }) => {
   const { navigate, token } = useAuth();
   const [list, setList] = useState<ListItem[]>([]);
   const [isModalOpen, setModalOpen] = useState(false);
-  const capitalized = capitalize(type);
+  const capitalizedType = capitalize(type);
 
   const fetchData = () => {
-    axios.get(`${import.meta.env.VITE_BE_HOST}api/${type}s/`, {
+    axios.get(`${import.meta.env.VITE_BE_HOST}${endpoint}`, {
       headers: { Authorization: `Bearer ${token}`},
     })
       .then((response) => setList(response.data))
@@ -44,8 +47,8 @@ const List: React.FC<ItemType> = ({ type }) => {
     <>
       {isModalOpen && <Modal onClose={() => setModalOpen(false)} refetch={fetchData} type={type} />}
       <div className='m-auto p-4'>
-        <h1 className='text-2xl font-bold'>{`${capitalized}s`}</h1>
-        <button className='bg-blue-900' onClick={() => setModalOpen(true)}>{`Add New ${capitalized}`}</button>
+        <h1 className='text-2xl font-bold'>{title}</h1>
+        <button className='bg-blue-900' onClick={() => setModalOpen(true)}>{`Add New ${capitalizedType}`}</button>
         <ul>
           {list.map((listItem) => {
             const { description, id, name, status } = listItem;

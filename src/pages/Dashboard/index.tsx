@@ -1,7 +1,13 @@
 import List from '../../components/List';
 
 const Dashboard = () => {
-  return <List type='project' />;
+  return (
+    <List
+      endpoint='api/projects/'
+      title='Projects'
+      type='project'
+    />
+  );
 }
 
 export default Dashboard;
