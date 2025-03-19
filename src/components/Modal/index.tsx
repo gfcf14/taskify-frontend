@@ -3,21 +3,32 @@ import { capitalize } from '../../utils/capitalize';
 
 interface ModalProps {
   onClose: () => void;
+  projectId?: number | null;
   refetch: () => void;
   type: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ onClose, refetch, type }) => {
+const Modal: React.FC<ModalProps> = ({ onClose, projectId, refetch, type }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const capitalized = capitalize(type);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const requestBody = type === 'project' ? {
+      name, description, status: 0
+    } : type === 'task' ? {
+      description,
+      project: projectId,
+      status: 0,
+      title: name
+    } : {};
+
     await fetch(`${import.meta.env.VITE_BE_HOST}api/${type}s/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, description, status: 0 }),
+      body: JSON.stringify(requestBody),
     });
 
     onClose();

@@ -16,8 +16,9 @@ interface ItemType {
 interface ListItem {
   description: string;
   id: number;
-  name: string;
+  name?: string;
   status: number;
+  title?: string;
 }
 
 const List: React.FC<ItemType> = ({ endpoint, id = null, title, type }) => {
@@ -45,23 +46,29 @@ const List: React.FC<ItemType> = ({ endpoint, id = null, title, type }) => {
 
   return (
     <>
-      {isModalOpen && <Modal onClose={() => setModalOpen(false)} refetch={fetchData} type={type} />}
+      {isModalOpen && <Modal onClose={() => setModalOpen(false)} projectId={id} refetch={fetchData} type={type} />}
       <div className='m-auto p-4'>
         <h1 className='text-2xl font-bold'>{title}</h1>
         <button className='bg-blue-900' onClick={() => setModalOpen(true)}>{`Add New ${capitalizedType}`}</button>
         <ul>
           {list.map((listItem) => {
-            const { description, id, name, status } = listItem;
+            const { description, id, name = '', title = '', status } = listItem;
 
-            return (
-              <Link className='text-white' to={`/projects/${id}`}>
-                <li key={id} className={`border mt-2 p-2 relative rounded-lg shadow-md ${statusColors[status]}`}>
-                  <h2 className='font-bold text-left text-lg'>{name}</h2>
-                  <p className='mt-1 text-gray-700 text-left text-sm'>{description}</p>
-                  <span className='absolute bg-gray-200 bottom-2 font-semibold px-2 py-1 right-2 rounded text-xs text-gray-700'>{statusTerms[status]}</span>
-                </li>
-              </Link>
+            const cardTitle = type === 'project' ? name : type === 'task' ? title : '';
+
+            const itemCard = (
+              <li key={id} className={`border mt-2 p-2 relative rounded-lg shadow-md ${statusColors[status]}`}>
+                <h2 className='font-bold text-left text-lg'>{cardTitle}</h2>
+                <p className='mt-1 text-gray-700 text-left text-sm'>{description}</p>
+                <span className='absolute bg-gray-200 bottom-2 font-semibold px-2 py-1 right-2 rounded text-xs text-gray-700'>{statusTerms[status]}</span>
+              </li>
             );
+
+            return type === 'project' ? (
+              <Link className='text-white' to={`/projects/${id}`}>
+                {itemCard}
+              </Link>
+            ) : type === 'task' ? itemCard : null;
           })}
         </ul>
       </div>
