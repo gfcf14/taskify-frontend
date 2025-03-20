@@ -35,6 +35,18 @@ const List: React.FC<ItemType> = ({ endpoint, id = null, title, type }) => {
       .catch((error) => console.error(error));
   };
 
+  const handleDelete = async(id: number) => {
+    try {
+      await axios.delete(`${import.meta.env.VITE_BE_HOST}api/${type}s/${id}`, {
+        headers: { Authorization: `Bearer ${token}`},
+      });
+
+      fetchData();
+    } catch (error) {
+      console.error(`Error deleting item: ${error}`);
+    }
+  };
+
   useEffect(() => {
     if (!token) {
       navigate('/');
@@ -57,18 +69,30 @@ const List: React.FC<ItemType> = ({ endpoint, id = null, title, type }) => {
             const cardTitle = type === 'project' ? name : type === 'task' ? title : '';
 
             const itemCard = (
-              <li key={id} className={`border mt-2 p-2 relative rounded-lg shadow-md ${statusColors[status]}`}>
+              <li className={`border mt-2 p-2 relative rounded-lg shadow-md ${statusColors[status]}`}>
                 <h2 className='font-bold text-left text-lg'>{cardTitle}</h2>
                 <p className='mt-1 text-gray-700 text-left text-sm'>{description}</p>
                 <span className='absolute bg-gray-200 bottom-2 font-semibold px-2 py-1 right-2 rounded text-xs text-gray-700'>{statusTerms[status]}</span>
               </li>
             );
 
-            return type === 'project' ? (
-              <Link key={id} className='text-white' to={`/projects/${id}`}>
-                {itemCard}
-              </Link>
-            ) : type === 'task' ? itemCard : null;
+            return  (
+              <div key={id} className="relative">
+                {type === 'project' ? (
+                  <>
+                    <Link className='text-white' to={`/projects/${id}`}>
+                      {itemCard}
+                    </Link>
+                    <span className='absolute bg-gray-200 cursor-pointer top-2 font-semibold px-2 py-1 right-2 rounded text-xs text-gray-700' onClick={() => handleDelete(id)} role='button'>DELETE</span>
+                  </>
+                ) : type === 'task' ? (
+                  <div key={id}  className="relative">
+                    {itemCard}
+                    <span className='absolute bg-gray-200 cursor-pointer top-2 font-semibold px-2 py-1 right-2 rounded text-xs text-gray-700' onClick={() => handleDelete(id)} role='button'>DELETE</span>
+                  </div>
+                ) : null}
+              </div>
+            );
           })}
         </ul>
       </div>
