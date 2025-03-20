@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
 export default function Login() {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const navigate = useNavigate();
+  const { navigate, token } = useAuth();
 
   const handleLogin = async(e: React.FormEvent) => {
     e.preventDefault();
@@ -21,6 +21,13 @@ export default function Login() {
       alert('Invalid credentials');
     }
   };
+
+  useEffect(() => {
+    if (token) {
+      navigate('/dashboard');
+      return;
+    }
+  }, []);
 
   return (
     <div className='h-screen flex justify-center items-center'>
