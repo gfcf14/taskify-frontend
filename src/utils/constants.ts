@@ -2,6 +2,13 @@ interface StatusEntries {
   [key: number]: string;
 }
 
+export interface EditData {
+  name: string;
+  description: string;
+  id: number;
+  status: number;
+}
+
 export const statusColors: StatusEntries = {
   0: 'bg-red-500',  // TODO
   1: 'bg-yellow-500',  // ACTIVE
