@@ -107,7 +107,7 @@ const List: React.FC<ItemType> = ({ endpoint, id = null, title, type }) => {
               <div key={id}>
                 {type === 'project' ? (
                   <div className='relative'>
-                    <Link className='text-white' to={`/projects/${id}`}>
+                    <Link className='text-white' to={`/projects/${id}?name=${name}`}>
                       {itemCard}
                     </Link>
                     {buttonArea}
